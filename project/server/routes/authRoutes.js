@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-// Google OAuth Routes
+
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback', 
@@ -12,7 +12,7 @@ router.get('/google/callback',
   }
 );
 
-// GitHub OAuth Routes
+
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 router.get('/github/callback',
@@ -22,7 +22,7 @@ router.get('/github/callback',
   }
 );
 
-// Facebook OAuth Routes
+
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
 router.get('/facebook/callback',
@@ -32,7 +32,7 @@ router.get('/facebook/callback',
   }
 );
 
-// Check if user is authenticated
+
 router.get('/status', (req, res) => {
   if (req.isAuthenticated()) {
     return res.status(200).json({
@@ -49,7 +49,7 @@ router.get('/status', (req, res) => {
   return res.status(401).json({ isAuthenticated: false });
 });
 
-// Logout route
+
 router.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {

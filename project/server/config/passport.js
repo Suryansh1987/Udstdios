@@ -19,7 +19,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Google OAuth Strategy
+
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -34,7 +34,7 @@ passport.use(new GoogleStrategy({
       return done(null, user);
     }
     
-    // Create new user
+   
     user = new User({
       providerId: profile.id,
       provider: 'google',
@@ -50,7 +50,7 @@ passport.use(new GoogleStrategy({
   }
 }));
 
-// GitHub OAuth Strategy
+
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
@@ -58,14 +58,14 @@ passport.use(new GitHubStrategy({
   scope: ['user:email']
 }, async (accessToken, refreshToken, profile, done) => {
   try {
-    // Check if user exists
+  
     let user = await User.findOne({ providerId: profile.id, provider: 'github' });
     
     if (user) {
       return done(null, user);
     }
     
-    // Create new user
+   
     const email = profile.emails && profile.emails[0] ? profile.emails[0].value : `${profile.username}@github.com`;
     
     user = new User({
@@ -83,7 +83,7 @@ passport.use(new GitHubStrategy({
   }
 }));
 
-// Facebook OAuth Strategy
+
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
@@ -91,14 +91,14 @@ passport.use(new FacebookStrategy({
   profileFields: ['id', 'displayName', 'photos', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
   try {
-    // Check if user exists
+   
     let user = await User.findOne({ providerId: profile.id, provider: 'facebook' });
     
     if (user) {
       return done(null, user);
     }
     
-    // Create new user
+    
     user = new User({
       providerId: profile.id,
       provider: 'facebook',
