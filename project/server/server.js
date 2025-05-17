@@ -26,7 +26,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: "https://udstdios-o22d.vercel.app/",
+  origin: "https://udstdios-o22d.vercel.app",
   credentials: true
 }));
 
