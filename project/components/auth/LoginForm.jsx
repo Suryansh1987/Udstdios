@@ -20,7 +20,7 @@ export function LoginForm() {
     return null;
   }
 
-  const handleLogin = (provider: string) => {
+  const handleLogin = (provider) => {
     setIsLoading(true);
     window.location.href = `${APP_SERVER_URL}/auth/${provider}`;
   };

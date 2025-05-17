@@ -5,13 +5,8 @@ import { fetchTopSearches } from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
 import { Loader2 } from 'lucide-react';
 
-interface TopSearch {
-  term: string;
-  count: number;
-}
-
 export function TopSearchesBanner() {
-  const [topSearches, setTopSearches] = useState<TopSearch[]>([]);
+  const [topSearches, setTopSearches] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -41,7 +36,7 @@ export function TopSearchesBanner() {
     );
   }
 
-  if (topSearches.length === 0) {
+  if (!topSearches.length) {
     return null;
   }
 

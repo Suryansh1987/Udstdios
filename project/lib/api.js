@@ -1,7 +1,7 @@
 import { APP_SERVER_URL } from './constants';
 
 // Search for images using Unsplash API
-export const searchImages = async (query: string) => {
+export const searchImages = async (query) => {
   const response = await fetch(`${APP_SERVER_URL}/api/search`, {
     method: 'POST',
     headers: {

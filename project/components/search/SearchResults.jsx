@@ -6,22 +6,10 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface SearchResultsProps {
-  results: any[];
-  isLoading: boolean;
-  selectedImages: string[];
-  onToggleSelect: (id: string) => void;
-}
+export function SearchResults({ results, isLoading, selectedImages, onToggleSelect }) {
+  const [loadedImages, setLoadedImages] = useState({});
 
-export function SearchResults({ 
-  results, 
-  isLoading, 
-  selectedImages,
-  onToggleSelect 
-}: SearchResultsProps) {
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
-
-  const handleImageLoad = (id: string) => {
+  const handleImageLoad = (id) => {
     setLoadedImages(prev => ({ ...prev, [id]: true }));
   };
 
@@ -39,7 +27,7 @@ export function SearchResults({
     );
   }
 
-  if (results.length === 0) {
+  if (!results || results.length === 0) {
     return (
       <div className="py-12 text-center">
         <p className="text-muted-foreground">No results found. Try a different search term.</p>

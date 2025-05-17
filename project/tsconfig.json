@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/search/page.jsx", "components/auth/LoginForm.jsx", "components/search/SearchForm.jsx", "lib/utils.js", "lib/constants.js", "lib/api.js", "contexts/AuthContext.jsx", "components/search/SearchResults.jsx", "components/search/TopSearchesBanner.jsx", "components/search/UserHistory.jsx"],
   "exclude": ["node_modules"]
 }

@@ -5,14 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 
-interface SearchFormProps {
-  onSearch: (query: string) => void;
-}
-
-export function SearchForm({ onSearch }: SearchFormProps) {
+export function SearchForm({ onSearch }) {
   const [query, setQuery] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
       onSearch(query.trim());

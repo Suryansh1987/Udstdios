@@ -7,13 +7,8 @@ import { useToast } from '@/hooks/use-toast';
 import { fetchUserHistory } from '@/lib/api';
 import { formatDistanceToNow } from 'date-fns';
 
-interface HistoryItem {
-  term: string;
-  timestamp: string;
-}
-
 export function UserHistory() {
-  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
@@ -45,7 +40,7 @@ export function UserHistory() {
     );
   }
 
-  if (history.length === 0) {
+  if (!history.length) {
     return (
       <div className="h-72 flex flex-col items-center justify-center text-center px-6">
         <Clock className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
@@ -60,9 +55,9 @@ export function UserHistory() {
   return (
     <div className="space-y-1 max-h-[500px] overflow-y-auto pr-1">
       <h3 className="font-medium mb-4">Recent Searches</h3>
-      
+
       {history.map((item, index) => (
-        <div 
+        <div
           key={index}
           className="flex items-center gap-2 p-2 rounded-md hover:bg-accent transition-colors group"
         >

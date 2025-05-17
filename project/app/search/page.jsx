@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -14,9 +14,9 @@ import { Loader2 } from 'lucide-react';
 
 export default function SearchPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const router = useRouter();
   const { toast } = useToast();
@@ -28,13 +28,13 @@ export default function SearchPage() {
     }
   }, [isAuthenticated, loading, router]);
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = useCallback(async (query) => {
     if (!query.trim()) return;
-    
+
     setIsLoading(true);
     setSearchQuery(query);
     setSelectedImages([]);
-    
+
     try {
       const data = await searchImages(query);
       setSearchResults(data.results);
@@ -48,15 +48,15 @@ export default function SearchPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [toast]);
 
-  const toggleImageSelection = (imageId: string) => {
-    setSelectedImages(prev => 
-      prev.includes(imageId) 
+  const toggleImageSelection = useCallback((imageId) => {
+    setSelectedImages(prev =>
+      prev.includes(imageId)
         ? prev.filter(id => id !== imageId)
         : [...prev, imageId]
     );
-  };
+  }, []);
 
   if (loading) {
     return (
@@ -67,13 +67,13 @@ export default function SearchPage() {
   }
 
   if (!isAuthenticated) {
-    return null; // Will redirect in useEffect
+    return null; // Redirect will happen in useEffect
   }
 
   return (
     <main className="min-h-screen bg-background">
       <TopSearchesBanner />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-3/4">
@@ -85,29 +85,29 @@ export default function SearchPage() {
                 Search for high-quality images from Unsplash
               </p>
             </div>
-            
+
             <SearchForm onSearch={handleSearch} />
-            
+
             {searchQuery && (
               <div className="mt-6 mb-4 flex flex-col sm:flex-row sm:items-center justify-between">
                 <p className="text-sm text-muted-foreground">
                   You searched for <span className="font-medium">&quot;{searchQuery}&quot;</span> – {totalResults} results
                 </p>
-                
+
                 <p className="text-sm font-medium mt-2 sm:mt-0">
                   Selected: {selectedImages.length} images
                 </p>
               </div>
             )}
-            
-            <SearchResults 
+
+            <SearchResults
               results={searchResults}
               isLoading={isLoading}
               selectedImages={selectedImages}
               onToggleSelect={toggleImageSelection}
             />
           </div>
-          
+
           <div className="md:w-1/4">
             <div className="bg-card rounded-lg shadow-sm p-6">
               <Tabs defaultValue="history">
@@ -115,17 +115,17 @@ export default function SearchPage() {
                   <TabsTrigger value="history" className="flex-1">History</TabsTrigger>
                   <TabsTrigger value="account" className="flex-1">Account</TabsTrigger>
                 </TabsList>
-                
+
                 <TabsContent value="history">
                   <UserHistory />
                 </TabsContent>
-                
+
                 <TabsContent value="account">
                   <div className="flex flex-col items-center py-4">
                     {user?.photo && (
-                      <img 
+                      <img
                         src={user.photo}
-                        alt={user.displayName}
+                        alt={user.displayName || 'User photo'}
                         className="w-16 h-16 rounded-full object-cover"
                       />
                     )}
